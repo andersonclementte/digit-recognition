@@ -7,7 +7,8 @@ from tensorflow import keras
 from flask import Flask, request, jsonify
 from PIL import Image
 
-model = keras.models.load_model('nn')
+# model = keras.models.load_model('nn')
+model = keras.models.load_model('nn.h5')
 
 def transform_image(pillow_image):
     data = np.asarray(pillow_image)
@@ -32,10 +33,12 @@ def index():
         if file is None or file.filename == "":
             return jsonify({'error': 'no file'})
         try:
-            pillow_image = Image.open(io.BytesIO(file.read())).convert('L')
-            data = transform_image(pillow_image)
-            label = predict(data)
-            return jsonify({'label': label})
+            images_bytes = file.read()
+            pillow_image = Image.open(io.BytesIO(images_bytes)).convert('L')
+            tensor = transform_image(pillow_image)
+            prediction = predict(tensor)
+            data = {'prediction': int(prediction)}
+            return jsonify(data)
         except Exception as e:
             return jsonify({'error': str(e)})
     return "OK"

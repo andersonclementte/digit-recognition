@@ -26,10 +26,11 @@ batch_size = 64
 epochs = 5
 
 model.fit(x_train, train_labels, epochs=epochs, batch_size=batch_size, shuffle=True, verbose=2)
-model.save('nn', save_format='tf')
+# model.save('nn', save_format='tf')
+model.save('nn.h5')
 
 print('Evaluate on test data')
 model.evaluate(x_test, test_labels, batch_size=batch_size, verbose=2)
 
-new_model = keras.models.load_model('nn')
+new_model = keras.models.load_model('nn.h5')
 new_model.evaluate(x_test, test_labels, batch_size=batch_size, verbose=2)

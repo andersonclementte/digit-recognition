@@ -4,9 +4,10 @@ from PIL import Image
 import numpy as np
 import io
 
-model = keras.models.load_model('nn')
+# model = keras.models.load_model('nn')
+model = keras.models.load_model('nn.h5')
 
-with open('three.png', 'rb') as file:
+with open('./model/three.png', 'rb') as file:
     image_bytes = file.read()
     pillow_image = Image.open(io.BytesIO(image_bytes)).convert('L')
 
